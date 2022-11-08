@@ -1,0 +1,30 @@
+<div class="loginContainer">
+    <h1>Register</h1>
+
+    <form id="registerForm" action="" method="post" onsubmit="event.preventDefault(); validateForm();">
+        <input type="text" name="firstName" placeholder="First name" required="required">
+        <input type="text" name="lastName" placeholder="Last name" required="required">
+        <input type="text" name="username" placeholder="Username" required="required">
+        <input type="email" name="email" placeholder="Email" required="required">
+        <input type="password" id="password" name="password" placeholder="Password" required="required">
+        <input type="password" id="password2" name="password2" placeholder="Confirm password" required="required">
+        <input type="submit" value="Login">
+    </form>
+
+    <a href="/login">Already have an account? Login here!</a>
+</div>
+
+<script>
+    let password = document.getElementById('password');
+    let password2 = document.getElementById('password2');
+    let form = document.getElementById('registerForm');
+
+    function validateForm() {
+        if (password.value != password2.value) {
+            alert('Passwords do not match. Please try again.');
+        }
+        else {
+            form.submit();
+        }
+    }
+</script>
