@@ -8,8 +8,9 @@ const loginRouter = express.Router();
 app.set('view engine', 'hbs');
 app.set('views', path.join(path.dirname(fileURLToPath(import.meta.url)), 'views'));
 
+//------------Route Handler------------
 loginRouter.get('/', (req, res, next) => {
-    res.render('login', {layout: 'layouts/login-layout'});
+    res.render('login', {pageTitle: 'Login', layout: 'layouts/login-layout'});
 });
 
 export {

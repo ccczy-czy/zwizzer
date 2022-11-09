@@ -1,3 +1,4 @@
+//------------login required------------
 const authRequired = authRequiredPaths => {
     return (req, res, next) => {
       if(authRequiredPaths.includes(req.path)) {
