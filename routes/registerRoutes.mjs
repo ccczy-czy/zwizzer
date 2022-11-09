@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import bodyParser from 'body-parser';
 import { User } from '../db.mjs';
+import bcrypt from 'bcryptjs';
 
 const app = express();
 const registerRouter = express.Router();
@@ -49,6 +50,8 @@ registerRouter.post('/', async (req, res) => {
             res.render('register', {pageTitle: 'Register', context: context, layout: 'layouts/login-layout'});
         }
         else { //no user found
+            req.body.password = await bcrypt.hash(password, 10);
+            
             User.create(req.body).then((user) => {
                 console.log(user);
             });
