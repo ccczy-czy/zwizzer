@@ -9,10 +9,10 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(path.dirname(fileURLToPath(import.meta.url)), 'views'));
 
 //------------Route Handler------------
-loginRouter.get('/', (req, res, next) => {
+loginRouter.get('/', (req, res) => {
     res.render('login', {pageTitle: 'Login', layout: 'layouts/login-layout'});
 });
 
 export {
     loginRouter
-}
+};
