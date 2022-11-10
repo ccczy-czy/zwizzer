@@ -55,6 +55,8 @@ registerRouter.post('/', async (req, res) => {
             User.create(req.body).then((user) => {
                 console.log(user);
             });
+
+            res.render('index');
         }
     }
     else {
