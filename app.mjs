@@ -7,6 +7,7 @@ import session from 'express-session';
 import * as auth from './auth.mjs';
 import { loginRouter } from './routes/loginRoutes.mjs';
 import { registerRouter } from './routes/registerRoutes.mjs';
+import { adminRouter } from './routes/adminRoutes.mjs';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -28,7 +29,7 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 
 //------------Custom Middleware------------
-app.use(auth.authRequired(['/']));
+app.use(auth.authRequired([]));
 
 app.use((req, res, next) => {
   console.log(req.method, req.path, req.body);
@@ -38,6 +39,8 @@ app.use((req, res, next) => {
 app.use('/login', loginRouter);
 
 app.use('/register', registerRouter);
+
+app.use('/admin', adminRouter);
 
 //------------Route Handler------------
 app.get('/', (req, res) => {
