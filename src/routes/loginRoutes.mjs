@@ -1,4 +1,4 @@
-import express from 'express';
+/*import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import bodyParser from 'body-parser';
@@ -62,6 +62,25 @@ loginRouter.post('/', async (req, res) => {
         context.errorMessage = "Make sure each field is valid.";
         res.render('login', {pageTitle: 'Login', context: context, layout: 'layouts/login-layout'});
     }
+});
+
+export {
+    loginRouter
+};
+*/
+
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const app = express();
+const loginRouter = express.Router();
+
+app.set('view engine', 'hbs');
+app.set('views', path.join(path.dirname(fileURLToPath(import.meta.url)), 'views'));
+
+loginRouter.get('/', (req, res) => {
+    res.render('login', {pageTitle: 'Login', layout: 'layouts/login-layout'});
 });
 
 export {

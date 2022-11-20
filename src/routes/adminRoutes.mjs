@@ -13,20 +13,28 @@ app.set('views', path.join(path.dirname(fileURLToPath(import.meta.url)), 'views'
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-let users1 = [];
-
-User.find({}, (err, users) => {
-    console.log(users);
-    users1.push(...users);
-});
-
 //------------Route Handler------------
 adminRouter.get('/', (req, res) => {
+    let users1 = [];
+
+    User.find({}, (err, users) => {
+        console.log(users);
+        users1.push(...users);
+    });
+
     console.log(users1);
+
     res.render('admin', {pageTitle: 'Admin', users: users1});
 });
 
 adminRouter.post('/', async (req, res) => {
+    let users1 = [];
+
+    await User.find({}, (err, users) => {
+        users1.push(...users);
+    });
+
+    console.log(users1);
     //------------validation------------
     if (req.body.firstName && req.body.lastName && req.body.username && req.body.email && req.body.password) {
         const firstName = req.body.firstName.trim();

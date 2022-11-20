@@ -2,10 +2,10 @@
   "name": "final-project-ccczy-czy",
   "version": "1.0.0",
   "description": "The content below is an example project proposal / requirements document. Replace the text below the lines marked \"__TODO__\" with details specific to your project. Remove the \"TODO\" lines.",
-  "main": "app.mjs",
+  "main": "src/app.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.mjs"
+    "start": "node src/app.mjs"
   },
   "repository": {
     "type": "git",
