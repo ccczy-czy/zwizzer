@@ -7,7 +7,7 @@ Zwizzer is a web app that will allow users to post microblogs, chat with friend,
 
 ## Data Model
 
-The application will store Users.
+The application will store Users, Posts, Messages, Chats.
 
 * in future development, a user might has follower list by embedding
 
@@ -19,14 +19,19 @@ An Example User:
   lastName: "Chen",
   username: "zc1212",
   email: "someemail@gmail.com",
-  password: //hashed password,
-  profilePic: "/images/profilePic.png"
+  password: "hashed password",
+  profilePic: "/images/profilePic.png",
+  coverPhoto: "aPuppy.png",
+  likes: "post ref",
+  retweets: "post ref",
+  following: "user ref",
+  followers: "user ref"
 }
 ```
 
-## [Link to Commented First Draft Schema](db.mjs) 
+## [Link to Commented First Draft Schema](src/schemas/User.mjs) 
 
-(See db.mjs)
+(See src/schemas/User.mjs)
 
 ## Wireframes
 
@@ -60,10 +65,12 @@ An Example User:
 
 * (5 points) Synchronous Chat
     * I'm going to use Socket.IO for synchronous chat between users
-* (6 points) react.js
-    * used react.js as the frontend framework
+* (6 points) next.js
+    * use next.js as the frontend framework
+* (2 points) cropper.js
+    * use cropper.js to crop user's profile image and/or cover image
 
-## [Link to Initial Main Project File](app.mjs)
+## [Link to Initial Main Project File](src/app.mjs)
 
 ## Annotations / References Used
 
