@@ -1,0 +1,23 @@
+<div class="box fade" id="replyBox" tabindex="-1" role="dialog" aria-labelledby="replyBoxLabel" aria-hidden="true">
+  <div class="box-dialog" role="document">
+    <div class="box-content">
+      <div class="box-header">
+        <h5 class="box-title" id="replyBoxLabel">Reply</h5>
+        <button class="close" type="button" data-dismiss="box" aria-label="Close"></button><span aria-hidden="true">&times;</span>
+      </div>
+      <div class="box-body">
+        <div id="originalPostContainer"></div>
+        <div class="postFormContainer">
+          <div class="userImageContainer"><img src="{{userLoggedIn.profilePic}}" alt="user's profile picture"/></div>
+          <div class="textareaContainer">
+            <textarea id="replyTextarea" placeholder="What's poppin?"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="box-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="box">Close</button>
+        <button class="btn btn-primary" id="submitReplyButton" type="button" disabled="">Reply</button>
+      </div>
+    </div>
+  </div>
+</div>

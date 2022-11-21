@@ -1,2 +1,12 @@
-<h2>This is Home</h2>
-<p>{{userLoggedIn.firstName}}</p>
+{{> createPostForm userLoggedIn=userLoggedIn}}
+<!--<div class="postsContainer">
+
+</div>
+{{> createPostBox userLoggedIn=userLoggedIn}}
+
+<script>
+    const script = document.createElement('script');
+    script.src = '/js/index.js';
+    document.getElementById('myScript').appendChild(script);
+</script>
+-->

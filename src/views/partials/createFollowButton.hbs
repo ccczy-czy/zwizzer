@@ -1,0 +1,5 @@
+{{#if isFollowing}}
+    <button class="followButton following" data-user="{{user._id}}">Following</button>
+{{else}}
+    <button class="followButton" data-user="{{user._id}}">Follow</button>
+{{/if}}
