@@ -2,8 +2,9 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import bodyParser from 'body-parser';
-import { User } from '../db.mjs';
 import bcrypt from 'bcryptjs';
+import { User } from '../schemas/User.mjs';
+import { requireLogin } from '../middleware.mjs';
 
 const app = express();
 const adminRouter = express.Router();
@@ -12,111 +13,100 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(path.dirname(fileURLToPath(import.meta.url)), 'views'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(requireLogin);
 
-//------------Route Handler------------
 adminRouter.get('/', (req, res) => {
-    let users1 = [];
-
     User.find({}, (err, users) => {
         console.log(users);
-        users1.push(...users);
     });
 
-    console.log(users1);
-
-    res.render('admin', {pageTitle: 'Admin', users: users1});
+    User.find({}).sort('-createdAt').exec((err, users) => {
+        res.render('admin', {pageTitle: 'Admin', users: users});
+    });
 });
 
-adminRouter.post('/', async (req, res) => {
-    let users1 = [];
+adminRouter.post('/', (req, res) => {
+    User.find({}, (err, users) => {
+        if (req.body.firstName && req.body.lastName && req.body.username && req.body.email && req.body.password) {
+            const firstName = req.body.firstName.trim();
+            const lastName = req.body.lastName.trim();
+            const username = req.body.username.trim();
+            const email = req.body.email.trim();
+            const password = req.body.password;
 
-    await User.find({}, (err, users) => {
-        users1.push(...users);
-    });
+            const context = req.body;
 
-    console.log(users1);
-    //------------validation------------
-    if (req.body.firstName && req.body.lastName && req.body.username && req.body.email && req.body.password) {
-        const firstName = req.body.firstName.trim();
-        const lastName = req.body.lastName.trim();
-        const username = req.body.username.trim();
-        const email = req.body.email.trim();
-        const password = req.body.password;
+            if (firstName && lastName && username && email && password) {
+                User.findOne({
+                    $or: [ //https://www.mongodb.com/docs/manual/reference/operator/query/or/
+                        {username: username},
+                        {email: email}
+                    ]
+                }, (err, user) => {
+                    if (err) {
+                        console.log(err);
+                        context.errorMessage = "Oops, something went wrong.";
+                        res.render('admin', {pageTitle: 'Admin', context: context, users: users});
+                    }
+                    else if (user) {
+                        if (email === user.email) {
+                            context.errorMessage = "Email already in use.";
+                        }
+                        else {
+                            context.errorMessage = "Username already in use.";
+                        }
+                        res.render('admin', {pageTitle: 'Admin', context: context, users: users});
+                    }
+                    else { //no user found
+                        bcrypt.hash(password, 10, (err, hash) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                            else {
+                                req.body.password = hash;
 
-        const context = req.body;
-
-        if (firstName && lastName && username && email && password) {
-            const user = await User.findOne({
-                $or: [ //https://www.mongodb.com/docs/manual/reference/operator/query/or/
-                    {username: username},
-                    {email: email}
-                ]
-            }).catch((err) => {
-                console.log(err);
-                context.errorMessage = "Oops, something went wrong.";
-                res.render('admin', {pageTitle: 'Admin', context: context, users: users1});
-            });
-
-            if (user) { //user found
-                if (email === user.email) {
-                    context.errorMessage = "Email already in use.";
-                }
-                else {
-                    context.errorMessage = "Username already in use.";
-                }
-                res.render('admin', {pageTitle: 'Admin', context: context, users: users1});
-            }
-            else { //no user found
-                req.body.password = await bcrypt.hash(password, 10);
-                
-                User.create(req.body).then((user) => {
-                    console.log(user);
-                    users1.push(user);
-                    res.render('admin', {pageTitle: 'Admin', context: context, users: users1});
+                            }
+                        });
+                        
+                        User.create(req.body, (user) => {
+                            console.log(user);
+                            res.redirect('/admin');
+                        });
+                    }
                 });
             }
+            else {
+                context.errorMessage = "Make sure each field is valid.";
+                res.render('admin', {pageTitle: 'Admin', context: context, users: users});
+            }
         }
-        else {
-            context.errorMessage = "Make sure each field is valid.";
-            res.render('admin', {pageTitle: 'Admin', context: context, users: users1});
-        }
-    }
-    else if (req.body.username) {
-        const username = req.body.username.trim();
+        else if (req.body.username) {
+            const username = req.body.username.trim();
+            const context = req.body;
 
-        const context = req.body;
-
-        if (username) {
-            User.findOneAndDelete({username: username}, (err) => {
-                if(err) {
-                    console.log(err);
-                    context.errorMessage = "Oops, something went wrong.";
-                    res.render('admin', {pageTitle: 'Admin', context: context, users: users1});
-                }
-                else {
-                    for (let i = 0; i < users1.length; i++) {
-                        if (users1[i].username === username) {
-                            context.errorMessage = "Successfully deleted";
-                            users1.splice(i,1);
-                            break;
-                        }
+            if (username) {
+                User.findOneAndDelete({username: username}, (err, user) => {
+                    if(err) {
+                        console.log(err);
+                        context.errorMessage = "Oops, something went wrong.";
+                        res.render('admin', {pageTitle: 'Admin', context: context, users: users});
                     }
-                    if (context.errorMessage === "Successfully deleted") {
-                        res.render('admin', {pageTitle: 'Admin', context: context, users: users1});
+                    else if(user) {
+                        context.errorMessage = "Successfully deleted";
+                        res.redirect('/admin');
                     }
                     else {
                         context.errorMessage = "No user found";
-                        res.render('admin', {pageTitle: 'Admin', context: context, users: users1});
+                        res.render('admin', {pageTitle: 'Admin', context: context, users: users});
                     }
-                }
-            });
+                });
+            }
+            else {
+                context.errorMessage = "Make sure each field is valid.";
+                res.render('admin', {pageTitle: 'Admin', context: context, users: users});
+            }
         }
-        else {
-            context.errorMessage = "Make sure each field is valid.";
-            res.render('admin', {pageTitle: 'Admin', context: context, users: users1});
-        }
-    }
-    
+    });
 });
 
 export {

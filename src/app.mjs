@@ -6,6 +6,7 @@ import session from 'express-session';
 import './db.mjs';
 import { loginRouter } from './routes/loginRoutes.mjs';
 import { registerRouter } from './routes/registerRoutes.mjs';
+import { adminRouter } from './routes/adminRoutes.mjs';
 import { requireLogin, logRequest } from './middleware.mjs';
 
 
@@ -29,6 +30,7 @@ app.use(session({
 app.use(logRequest);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
+app.use('/admin', adminRouter);
 
 app.get('/', requireLogin, (req, res) => {
   res.render('index', {pageTitle: 'Home', userLoggedIn: req.session.user});

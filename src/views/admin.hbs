@@ -1,6 +1,6 @@
 <ol>
-{{#each users}}
-<li>{{this.username}} | {{this.email}}</li>
+{{#each users as |u|}}
+<li>Username: {{username}} | Email: {{email}}</li>
 {{/each}}
 </ol>
 
@@ -19,6 +19,7 @@
 </form>
 
 <h2>Delete user here!</h2>
+
 <form action="" method="post">
     {{#if context}}
         <p class="errorMessage">{{context.errorMessage}}</p>
