@@ -11,6 +11,7 @@ import './db.mjs';
 import { loginRouter } from './routes/loginRoutes.mjs';
 import { registerRouter } from './routes/registerRoutes.mjs';
 import { adminRouter } from './routes/adminRoutes.mjs';
+import { messageRouter } from './routes/messageRoutes.mjs';
 /*import { postRouter } from './routes/postRoutes.mjs';
 import { profileRouter } from './routes/profileRoutes.mjs';
 import { uploadRouter } from './routes/uploadRoutes.mjs';
@@ -62,6 +63,7 @@ app.use(logRequest);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/admin', adminRouter);
+app.use('/messages', requireLogin, messageRouter);
 /*app.use('/posts', requireLogin, postRouter);
 app.use('/profile', requireLogin, profileRouter);
 app.use('/uploads', uploadRouter);
@@ -76,6 +78,12 @@ app.use('/api/messages', messagesApiRouter);
 
 app.get('/', requireLogin, (req, res) => {
   res.render('index', {pageTitle: 'Home', userLoggedIn: req.session.user});
+});
+
+io.on('connection', (socket) => {
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', msg);
+  });
 });
 
 /*io.on('connection', socket => {

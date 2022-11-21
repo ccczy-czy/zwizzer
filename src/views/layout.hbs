@@ -11,8 +11,9 @@
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
+    <script src="https://kit.fontawesome.com/82b68d50e9.js" crossorigin="anonymous"></script>
     <!--<script>
-        let userLoggedIn = {{userLoggedInJs}};
+        var userLoggedIn = {{userLoggedInJs}};
     </script>
     -->
     <div class="wrapper">
@@ -47,7 +48,7 @@
                 </a>
             </nav>
 
-            <div class="mainSectionContainer col-10 col-md-8 col-lg-6">
+            <div class="mainSectionContainer col-10 col-md-8 col-lg-6 position-relative">
                 <div class="titleContainer">
                     <h1>{{pageTitle}}</h1>
 
@@ -65,13 +66,36 @@
         </div>
     </div>
 
-    <script src="https://kit.fontawesome.com/82b68d50e9.js" crossorigin="anonymous"></script>
+    
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js" integrity="sha512-9pGiHYK23sqK5Zm0oF45sNBAX/JqbZEP7bSDHyt+nT3GddF+VFIcYNqREt0GDpmFVZI3LZ17Zu9nMMc9iktkCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.3/socket.io.min.js"></script>-->
     <script src="/js/main.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+
+        var messages = document.getElementById('messages');
+        var form = document.getElementById('chatForm');
+        var input = document.getElementById('input');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (input.value) {
+                socket.emit('chat message', input.value);
+                input.value = '';
+            }
+        });
+
+        socket.on('chat message', function(msg) {
+            var item = document.createElement('li');
+            item.textContent = msg;
+            messages.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+    </script>
     <!--<div id="myScript">
 
     </div>
