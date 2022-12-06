@@ -1,0 +1,13 @@
+extends layouts/main.pug
+
+block content
+    +createPostForm(userLoggedIn)
+    .postsContainer
+    
+    +replyModal(userLoggedIn)
+    +deleteModal()
+    +pinModal()
+    +unpinModal()
+
+block js
+    script(src="/js/index.js")

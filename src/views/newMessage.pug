@@ -1,0 +1,10 @@
+extends layouts/main.pug
+
+block content
+    .chatContainer
+        .sendBar
+            label(for="searchUserBox") To:
+            #selectedUsers
+                input#searchUserBox(type="text", placeholder='Type the person you wanna have chat')
+        .resultContainer
+        button#createChat(disabled='') Create chat

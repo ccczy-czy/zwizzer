@@ -1,0 +1,11 @@
+extends layouts/main.pug
+
+block content
+    .resultContainer
+
+block topButtons
+    a.newChatButton(href="/messages/new")
+        i.fa-solid.fa-circle-plus
+
+block js
+    script(src="/js/inbox.js")

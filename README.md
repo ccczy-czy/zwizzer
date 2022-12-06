@@ -65,10 +65,12 @@ An Example User:
 
 * (5 points) Synchronous Chat
     * I'm going to use Socket.IO for synchronous chat between users
-* (6 points) next.js
-    * use next.js as the frontend framework
+* (3 points) Pug
+    * use Pug template engine to allow logics when rendering templates
 * (2 points) cropper.js
     * use cropper.js to crop user's profile image and/or cover image
+* (2 points) multer.js
+    * use multer.js, a node.js middleware, to handle multipart/form-data when users try to upload their profile image/cover photo
 
 ## [Link to Initial Main Project File](src/app.mjs)
 

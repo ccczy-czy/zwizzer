@@ -1,0 +1,18 @@
+extends layouts/main.pug
+
+block content
+    if !profileUser
+        sapn.errorMessage Check if you spelled the name right!
+    else
+        script.
+            const profileUserId = '!{profileUser._id}';
+            const tab = '!{tab}';
+
+        .tabContainer
+            +tab('Following', `/profile/${profileUser.username}/following`, tab != 'followers')
+            +tab('Followers', `/profile/${profileUser.username}/followers`, tab == 'followers')
+            
+        .resultContainer
+            
+block js
+    script(src="/js/follow.js")

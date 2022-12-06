@@ -8,13 +8,13 @@ import { User } from '../schemas/User.mjs';
 const app = express();
 const registerRouter = express.Router();
 
-app.set('view engine', 'hbs');
+app.set('view engine', 'pug');
 app.set('views', path.join(path.dirname(fileURLToPath(import.meta.url)), 'views'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 registerRouter.get('/', (req, res) => {
-    res.render('register', {pageTitle: 'Register', layout: 'layouts/login-layout'});
+    res.render('register', {pageTitle: 'Register'});
 });
 
 registerRouter.post('/', async (req, res) => {
@@ -36,7 +36,8 @@ registerRouter.post('/', async (req, res) => {
         }).catch((err) => {
             console.log(err);
             context.errorMessage = 'Oops, something went wrong.';
-            res.render('register', {pageTitle: 'Register', context: context, layout: 'layouts/login-layout'});
+            context.pageTitle = 'Register';
+            res.render('register', context);
         });
 
         if (user) { //user found
@@ -46,7 +47,8 @@ registerRouter.post('/', async (req, res) => {
             else {
                 context.errorMessage = 'Username already in use.';
             }
-            res.render('register', {pageTitle: 'Register', context: context, layout: 'layouts/login-layout'});
+            context.pageTitle = 'Register';
+            res.render('register', context);
         }
         else { //no user found
             req.body.password = await bcrypt.hash(password, 10);
@@ -60,7 +62,8 @@ registerRouter.post('/', async (req, res) => {
     }
     else {
         context.errorMessage = 'Make sure each field is valid.';
-        res.render('register', {pageTitle: 'Register', context: context, layout: 'layouts/login-layout'});
+        context.pageTitle = 'Register';
+        res.render('register', context);
     }
 });
 

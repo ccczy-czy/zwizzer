@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
     username: { type: String, required: true, trim: true, unique: true },
     email: { type: String, required: true, trim: true, unique: true },
     password: { type: String, required: true },
-    profilePic: { type: String, default: '/images/profilePic.jpeg' }, //lead to the location of a default profile picture if a user didn't set up one
+    profilePic: { type: String, default: '/images/profilePic.png' }, //lead to the location of a default profile picture if a user didn't set up one
     coverPhoto: { type: String },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
     retweets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],

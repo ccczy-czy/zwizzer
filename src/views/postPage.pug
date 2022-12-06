@@ -1,0 +1,15 @@
+extends layouts/main.pug
+
+block content
+    script.
+        const postId = '!{postId}';
+    
+    .postsContainer
+    
+    +replyModal(userLoggedIn)
+    +deleteModal()
+    +pinModal()
+    +unpinModal()
+
+block js
+    script(src="/js/postPage.js") 

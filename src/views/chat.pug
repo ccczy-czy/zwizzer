@@ -1,0 +1,30 @@
+extends layouts/main.pug
+
+block content
+
+    if errorMessage
+        span.errorMessage #{errorMessage}
+    else 
+        script.
+            var chatId = '!{chat._id}';
+
+        .chatContainer
+            .chatTitle
+                +chatImage(chat, userLoggedIn)
+                span#chatName(data-toggle="modal", data-target="#changeChatModal")
+            
+            .mainContentContainer
+                .chatContentContainer(data-room=chat._id)
+                    ul.chatMessages
+
+                    .typingDots
+                        img(src='/images/dots.gif', alt='Typing dots')
+
+                    .messageSendBox
+                        textarea.inputTextBox(name="messageInput", placeholder="Type your message...")
+                        button.sendMessage
+                            i.fa-solid.fa-paper-plane
+        +changeChatModal(chat)
+
+block js
+    script(src="/js/chat.js")

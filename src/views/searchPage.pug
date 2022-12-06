@@ -1,0 +1,20 @@
+extends layouts/main.pug
+
+block content
+    .searchBarContainer
+        i.fas.fa-search
+        input#searchBar(type="text", name="searchBar", data-search=tab, placeholder='Search for posts or people?')
+
+    .tabContainer
+        +tab('Posts', `/search/posts`, tab != 'users')
+        +tab('Users', `/search/users`, tab == 'users')
+
+    .resultContainer
+    
+    +replyModal(userLoggedIn)
+    +deleteModal()
+    +pinModal()
+    +unpinModal()
+
+block js
+    script(src="/js/searchPage.js")

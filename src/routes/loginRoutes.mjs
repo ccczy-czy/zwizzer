@@ -8,13 +8,13 @@ import { User } from '../schemas/User.mjs';
 const app = express();
 const loginRouter = express.Router();
 
-app.set('view engine', 'hbs');
+app.set('view engine', 'pug');
 app.set('views', path.join(path.dirname(fileURLToPath(import.meta.url)), 'views'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 loginRouter.get('/', (req, res) => {
-    res.render('login', {pageTitle: 'Login', layout: 'layouts/login-layout'});
+    res.render('login', {pageTitle: 'Login'});
 });
 
 loginRouter.post('/', async (req, res) => {
@@ -29,7 +29,8 @@ loginRouter.post('/', async (req, res) => {
         }).catch((err) => {
             console.log(err);
             context.errorMessage = 'Oops, something went wrong.';
-            res.render('login', {pageTitle: 'Login', context: context, layout: 'layouts/login-layout'});
+            context.pageTitle = 'Login';
+            res.render('login', context);
         });
 
         if (user) { //user found
@@ -42,10 +43,12 @@ loginRouter.post('/', async (req, res) => {
 
         }
         context.errorMessage = 'Password or username incorrect.';
-        return res.render('login', {pageTitle: 'Login', context: context, layout: 'layouts/login-layout'});
+        context.pageTitle = 'Login';
+        return res.render('login', context);
     }
     context.errorMessage = 'Make sure each field is valid.';
-    res.render('login', {pageTitle: 'Login', context: context, layout: 'layouts/login-layout'});
+    context.pageTitle = 'Login';
+    res.render('login', context);
 });
 
 export {
