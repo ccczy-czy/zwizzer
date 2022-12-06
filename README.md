@@ -3,7 +3,7 @@
 
 ## Overview
 
-Zwizzer is a web app that will allow users to post microblogs, chat with friend, like other users' posts... basically do same things on Twitter. Users can register and login. Once they're logged in, they can view their own posts or their friends' posts. They can add friends and delete friends.
+Zwizzer is a web app that will allow users to post microblogs, chat with friend, like other users' posts... Users can register and login. Once they're logged in, they can view their own posts or their friends' posts. They can follow and unfollow friends.
 
 ## Data Model
 
