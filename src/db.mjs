@@ -13,21 +13,22 @@ class Database {
     const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
     let dbconf;
 
-    if (process.env.NODE_ENV === 'PRODUCTION') {
-      // if we're in PRODUCTION mode, then read the configration from a file
-      // use blocking file io to do this...
-      const fn = path.join(__dirname, 'config.json');
-      const data = fs.readFileSync(fn);
+    // if (process.env.NODE_ENV === 'PRODUCTION') {
+    //   // if we're in PRODUCTION mode, then read the configration from a file
+    //   // use blocking file io to do this...
+    //   const fn = path.join(__dirname, 'config.json');
+    //   const data = fs.readFileSync(fn);
     
-      // our configuration file will be in json, so parse it and set the
-      // conenction string appropriately!
-      const conf = JSON.parse(data);
-      dbconf = conf.dbconf;
-    }
-    else {
-      // if we're not in PRODUCTION mode, then use
-      dbconf = 'mongodb://localhost/finalProject';
-    }
+    //   // our configuration file will be in json, so parse it and set the
+    //   // conenction string appropriately!
+    //   const conf = JSON.parse(data);
+    //   dbconf = conf.dbconf;
+    // }
+    // else {
+    //   // if we're not in PRODUCTION mode, then use
+    //   dbconf = 'mongodb://localhost/finalProject';
+    // }
+    dbconf = 'mongodb+srv://admin:12345@zwizzer.psekvtv.mongodb.net/?retryWrites=true&w=majority';
 
     mongoose.connect(dbconf).then(() => {
       console.log('database connection successful');
